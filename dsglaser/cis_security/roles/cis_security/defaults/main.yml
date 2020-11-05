@@ -177,3 +177,5 @@ au_update_day: "0"                # Windows. Configure which day automatic updat
 au_update_time: "3"               # Windows. Configure what time automatic updates will be installed.
                                   #  Only takes effect if "automatic_updates" == "4". This is the hour portion of the
                                   #   time only. "3" means 03:00am. Set this value to '24' for windows to automatically pick a time
+cis_exclusions: []                # Exclude checks
+

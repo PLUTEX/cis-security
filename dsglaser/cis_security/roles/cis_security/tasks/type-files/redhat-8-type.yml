@@ -39,7 +39,7 @@
       name: "*"
       state: latest
       security: true
-    when: update_system
+    when: "update_system and ('1.9.0' not in cis_exclusions)"
     tags:
       - 1.9.0
 
@@ -55,24 +55,28 @@
       unused_filesystems: "{{ unused_filesystems + [ 'cramfs' ] }}"
     tags:
       - 1.1.1.1
+    when: "'1.1.1.1' not in cis_exclusions"
 
   - name: 1.1.1.2 - Add vfat to list of unused filesystems
     set_fact:
       unused_filesystems: "{{ unused_filesystems + [ 'vfat' ] }}"
     tags:
       - 1.1.1.2
+    when: "'1.1.1.2' not in cis_exclusions"
 
   - name: 1.1.1.3 - Add squashfs to list of unused filesystems
     set_fact:
       unused_filesystems: "{{ unused_filesystems + [ 'squashfs' ] }}"
     tags:
       - 1.1.1.3
+    when: "'1.1.1.3' not in cis_exclusions"
 
   - name: 1.1.1.4 - Add udf to list of unused filesystems
     set_fact:
       unused_filesystems: "{{ unused_filesystems + [ 'udf' ] }}"
     tags:
       - 1.1.1.4
+    when: "'1.1.1.4' not in cis_exclusions"
   # With the list complete, use it with the system's package manager
   #  to remove packages from the system that are not needed.
   - name: Process unused_filesystem list
@@ -113,6 +117,7 @@
       - 1.1.3
       - 1.1.4
       - 1.1.5
+    when: "'1.1.2-5' not in cis_exclusions"
 
   # Determine if a filesystem is on a separate partition, if so, then
   #  check to see if various filesystem options exist for the filesystem
@@ -145,6 +150,7 @@
     # This whole block can be turned off by excluding the following tag(s)
     tags:
       - 1.1.6
+    when: "'1.1.6' not in cis_exclusions"
 
   # Determine if a filesystem is on a separate partition, if so, then
   #  check to see if various filesystem options exist for the filesystem
@@ -220,6 +226,7 @@
     # This whole block can be turned off by excluding the following tag(s)
     tags:
       - 1.1.7
+    when: "'1.1.7' not in cis_exclusions"
 
   # Determine if a filesystem is on a separate partition, if so, then
   #  check to see if various filesystem options exist for the filesystem
@@ -252,6 +259,7 @@
     # This whole block can be turned off by excluding the following tag(s)
     tags:
       - 1.1.11
+    when: "'1.1.11' not in cis_exclusions"
 
   # Determine if a filesystem is on a separate partition, if so, then
   #  check to see if various filesystem options exist for the filesystem
@@ -284,6 +292,7 @@
     # This whole block can be turned off by excluding the following tag(s)
     tags:
       - 1.1.12
+    when: "'1.1.12' not in cis_exclusions"
 
   # Determine if a filesystem is on a separate partition, if so, then
   #  check to see if various filesystem options exist for the filesystem
@@ -326,6 +335,7 @@
     tags:
     # This whole block can be turned off by excluding the following tag(s)
       - 1.1.13
+    when: "'1.1.13' not in cis_exclusions"
 
   # /dev/shm does not exist in ansible_mounts so we have to check the
   #  mount command directly. This requires the use of the shell command which
@@ -348,6 +358,7 @@
     tags:
     # This whole block can be turned off by excluding the following tag(s)
       - 1.1.15
+    when: "'1.1.15' not in cis_exclusions"
 
   # Grep out /dev/shm and see if the given option is set.
   - name: 1.1.16 - Report if /dev/shm does not have nosuid set
@@ -367,6 +378,7 @@
     tags:
     # This whole block can be turned off by excluding the following tag(s)
       - 1.1.16
+    when: "'1.1.16' not in cis_exclusions"
 
   # Grep out /dev/shm and see if the given option is set.
   - name: 1.1.17 - Report if /dev/shm does not have noexec set
@@ -386,6 +398,7 @@
     tags:
     # This whole block can be turned off by excluding the following tag(s)
       - 1.1.17
+    when: "'1.1.17' not in cis_exclusions"
 
 # Control 1.1.18, 1.1.19, 1.1.20 are for removable media
 
@@ -404,7 +417,7 @@
       name: autofs
       enabled: no
       state: stopped
-    when: "'autofs' in ansible_facts.packages"
+    when: "'autofs' in ansible_facts.packages and ('1.1.22' not in cis_exclusions)"
     tags:
       - 1.1.22
 
@@ -416,6 +429,7 @@
       create: yes
     tags:
       - 1.1.23
+    when: "'1.1.23' not in cis_exclusions"
 
 # Control 1.2.1 is system updating. Make sure system is set for some kind of system software update
 
@@ -427,7 +441,7 @@
       enabled: no
       state: stopped
     ignore_errors: true #Remove for RHEL
-    when: ansible_distribution == "RedHat"
+    when: 'ansible_distribution == "RedHat" and "1.2.2" not in cis_exclusions'
     tags:
       - 1.2.2
 
@@ -469,6 +483,7 @@
     tags:
       - 1.2.3
       - 1.2.4
+    when: "'1.2.3-4' not in cis_exclusions"
 
   # Control 1.2.5 is a manual review to ensure repos are configured per site needs
 
@@ -479,6 +494,7 @@
       state: present
     tags:
       - 1.3.1
+    when: "'1.3.1' not in cis_exclusions"
 
   # Make sure the sudoers file includes the requirement to use pty
   - name: 1.3.2 - Ensure sudo commands use pty
@@ -490,6 +506,7 @@
       validate: /usr/sbin/visudo -cf %s
     tags:
       - 1.3.2
+    when: "'1.3.2' not in cis_exclusions"
 
   # Make sure the sudoers file includes the requirement to log to a file
   - name: 1.3.3 - Ensure sudo log file exists
@@ -501,6 +518,7 @@
       validate: /usr/sbin/visudo -cf %s
     tags:
       - 1.3.3
+    when: "'1.3.3' not in cis_exclusions"
 
   # AIDE is a file system integrity checker which will document all
   # filesystem changes. It's very noisy on busy systems and should be
@@ -603,6 +621,7 @@
           - 1.4.2
     tags:
       - 1.4.0
+    when: "'1.4.0' not in cis_exclusions"
 
   # 1.5 Secure Boot settings
 
@@ -617,7 +636,7 @@
   - name: 1.5.1 - set variable for grub.cfg in EFI location
     set_fact:
       grub_cfg_path: "{{ efidir.stat.path }}"
-    when: efidir.stat.path is defined
+    when: 'efidir.stat.path is defined and ("1.5.1" not in cis_exclusions)'
     tags:
       1.5.1
 
@@ -627,11 +646,12 @@
     register: grubdir
     tags:
       1.5.1
+    when: "'1.5.1' not in cis_exclusions"
 
   - name: 1.5.1 - set variable for grub.cfg in LILO location
     set_fact:
       grub_cfg_path: "{{ grubdir.stat.path }}"
-    when: grubdir.stat.path is defined
+    when: 'grubdir.stat.path is defined and ("1.5.1" not in cis_exclusions)'
     tags:
       1.5.1
 
@@ -647,6 +667,7 @@
       - /boot/grub2/grubenv
     tags:
       - 1.5.1
+    when: "'1.5.1' not in cis_exclusions"
 
   # Control 1.5.2, Grub bootloader password - skipped
 
@@ -691,6 +712,7 @@
         when: root_pw_check.found and root_password is not defined
     tags:
       - 1.5.3
+    when: "'1.5.3' not in cis_exclusions"
 
 
   # 1.6 Additional Process Hardening
@@ -716,6 +738,7 @@
           value: "0"
     tags:
       - 1.6.1
+    when: "'1.6.1' not in cis_exclusions"
 
   - name: 1.6.2 - Ensure address space layout reandomization (ASLR) is enabled
       # The sysctl module will set variables in /etc/sysctl.conf and tell sysctl
@@ -728,6 +751,7 @@
       sysctl_set: yes
     tags:
       - 1.6.2
+    when: "'1.6.2' not in cis_exclusions"
 
   # 1.7 Mandatory Access Control
 
@@ -741,6 +765,7 @@
     when: selinux is defined and selinux != "Disabled"
     tags:
       - 1.7.1.1
+    when: "'1.7.1.1' not in cis_exclusions"
 
   # re-gather system facts in case we installed selinux packages.
   #  If selinux wasn't installed, it will not populate ansible_selinux fact correctly, regathering
@@ -749,6 +774,7 @@
     setup:
     tags:
       - 1.7.1.1
+    when: "'1.7.1.1' not in cis_exclusions"
 
   # Use the replace module to remove any disablment of selinux in grub if
   #  it isn't expressly disabled from a variable
@@ -760,7 +786,7 @@
     with_items:
       - selinux=0
       - enforcing=0
-    when: selinux is defined and selinux != "Disabled"
+    when: 'selinux is defined and selinux != "Disabled" and ("1.7.1.2" not in cis_exclusions)'
     notify: rebuild grub
     tags:
       - 1.7.1.2
@@ -771,7 +797,7 @@
       dest: /etc/selinux/config
       regexp: "^SELINUXTYPE=((?!{{ selinux_policy }}).)*$"
       replace: "SELINUXTYPE={{ selinux_policy }}"
-    when: ( selinux is defined and selinux_policy is defined ) and selinux != "Disabled"
+    when: '( selinux is defined and selinux_policy is defined ) and selinux != "Disabled" and ("1.7.1.3" not in cis_exclusions)'
     tags:
       - 1.7.1.3
 
@@ -784,7 +810,7 @@
       group: root
       mode: 0644
       state: touch
-    when: ansible_selinux.status == "disabled" and selinux | lower != "disabled"
+    when: '(ansible_selinux.status == "disabled" and selinux | lower != "disabled") and ("1.7.1.3" not in cis_exclusions)'
     notify: reboot
     tags:
       - 1.7.1.3
@@ -795,7 +821,7 @@
       dest: /etc/selinux/config
       regexp: "^SELINUX=((?!{{ selinux }}).)*$"
       replace: "SELINUX={{ selinux | lower }}"
-    when: selinux is defined and ( selinux | lower == "enforcing" or selinux | lower == "permissive" or selinux | lower == "disabled" )
+    when: '(selinux is defined and ( selinux | lower == "enforcing" or selinux | lower == "permissive" or selinux | lower == "disabled" )) and ("1.7.1.4" not in cis_exclusions)'
     notify: reboot
     tags:
       - 1.7.1.4
@@ -822,6 +848,7 @@
         when: unconfined_services_out.stdout
     tags:
       - 1.7.1.5
+    when: '"1.7.1.5" not in cis_exclusions'
 
   # Use system package manager to remove package
   - name: 1.7.1.6 - Remove setroubleshoot
@@ -830,6 +857,7 @@
       state: absent
     tags:
       - 1.7.1.6
+    when: '"1.7.1.6" not in cis_exclusions'
 
   - name: 1.7.1.7 - Remove MCS Translation Service
     yum:
@@ -837,6 +865,7 @@
       state: absent
     tags:
       - 1.7.1.7
+    when: '"1.7.1.7" not in cis_exclusions'
 
   # 1.8 Warning Banners
 
@@ -851,6 +880,7 @@
     tags:
       - 1.8.1.1
       - 1.8.1.4
+    when: '"1.8.1.1" not in cis_exclusions'
 
   # Use copy module to copy in the appropriate files based on variable and set permissions
   - name: 1.8.1.2 - Install issue banners
@@ -863,6 +893,7 @@
     tags:
       - 1.8.1.2
       - 1.8.1.5
+    when: '"1.8.1.2" not in cis_exclusions'
 
   # Use copy module to copy in the appropriate files based on variable and set permissions
   - name: 1.8.1.3 - Install issue.net banners
@@ -875,6 +906,7 @@
     tags:
       - 1.8.1.3
       - 1.8.1.6
+    when: '"1.8.1.3" not in cis_exclusions'
 
   # add a banner to the login screen if the graphical_interface variable is set to true
   - name: 1.8.2 Ensure GDM banner set up
@@ -888,7 +920,7 @@
         [org/gnome/login-screen]
         banner-message-enable=true
         banner-message-text='Authorized uses only. All activity may be monitored and reported.'
-    when: graphical_inteface is defined and graphical_interface
+    when: '(graphical_interface is defined and graphical_interface) and ("1.8.2" not in cis_exclusions)'
     tags:
       - 1.8.2
 
@@ -923,6 +955,7 @@
         when: ( crypto_policy is defined and crypto_policy == "FIPS") and fips_mode.rc == "2"
     tags:
       - 1.10.0
+    when: '"1.10.0" not in cis_exclusions'
 
  ### Part 2, Services ###
   # Remove old, unused, insecure services
@@ -930,8 +963,7 @@
     dnf:
       name: xinetd
       state: absent
-    when: tftp_server is defined and not tftp_server
-
+    when: '(tftp_server is defined and not tftp_server) and "2.1.1" not in cis_exclusions'
     tags:
       - 2.1.1
 
@@ -943,6 +975,7 @@
       state: present
     tags:
       - 2.2.1.1
+    when: '"2.2.1.1" not in cis_exclusions'
 
   # Use the template module to deploy the config file for the time sync program
   #  The default file does not have any template variables, but it's there so
@@ -957,6 +990,7 @@
     notify: restart chronyd
     tags:
       - 2.2.1.2
+    when: '"2.2.1.2" not in cis_exclusions'
 
   - name: 2.2.2 - disable display manager if graphical desktop not needed
     block:
@@ -1017,6 +1051,7 @@
         when: graphical_interface
     tags:
       - 2.2.2
+    when: '"2.2.2" not in cis_exclusions'
 
   # This collection of tasks creates a empty list and save it as a fact.
   #  For every item that is encountered (without the tag being skipped),
@@ -1030,64 +1065,68 @@
       unneeded_packages: "{{ unneeded_packages + [ 'rsync' ] }}"
     tags:
       - 2.2.3
+    when: '"2.2.3" not in cis_exclusions'
 
   - name: 2.2.4 - Remove avahi; add to removal list
     set_fact:
       unneeded_packages: "{{ unneeded_packages + [ 'avahi' ] }}"
     tags:
       - 2.2.4
+    when: '"2.2.4" not in cis_exclusions'
 
   - name: 2.2.5 - Remove snmp; add to removal list
     set_fact:
       unneeded_packages: "{{ unneeded_packages + [ 'net-snmp' ] + [ 'net-snmp-libs'] }}"
     tags:
       - 2.2.5
+    when: '"2.2.5" not in cis_exclusions'
 
   - name: 2.2.6 - Remove squid; add to removal list
     set_fact:
       unneeded_packages: "{{ unneeded_packages + [ 'squid' ] }}"
     tags:
       - 2.2.6
+    when: '"2.2.6" not in cis_exclusions'
 
   - name: 2.2.7 - Remove samba; add to removal list
     set_fact:
       unneeded_packages: "{{ unneeded_packages + [ 'samba' ] }}"
-    when: smb_server is defined and not smb_server
+    when: '(smb_server is defined and not smb_server) and "2.2.7" not in cis_exclusions'
     tags:
       - 2.2.7
 
   - name: 2.2.8 - Remove dovecot; add to removal list
     set_fact:
       unneeded_packages: "{{ unneeded_packages + [ 'dovecot' ] }}"
-    when: email_server is defined and not email_server
+    when: '(email_server is defined and not email_server) and "2.2.8" not in cis_exclusions'
     tags:
       - 2.2.8
 
   - name: 2.2.9 - Remove httpd; add to removal list
     set_fact:
       unneeded_packages: "{{ unneeded_packages + [ 'httpd' ] + [ 'httpd-tools' ] + [ 'mod_ssl' ] }}"
-    when: http_server is defined and not http_server
+    when: '(http_server is defined and not http_server) and "2.2.9" not in cis_exclusions'
     tags:
       - 2.2.9
 
   - name: 2.2.10 - Remove vsftpd; add to removal list
     set_fact:
       unneeded_packages: "{{ unneeded_packages + [ 'vsftpd' ] }}"
-    when: ftp_server is defined and not ftp_server
+    when: '(ftp_server is defined and not ftp_server) and "2.2.10" not in cis_exclusions'
     tags:
       - 2.2.10
 
   - name: 2.2.11 - Remove bind; add to removal list
     set_fact:
       unneeded_packages: "{{ unneeded_packages + [ 'bind' ] + [ 'unbound' ] }}"
-    when: dns_server is defined and not dns_server
+    when: '(dns_server is defined and not dns_server) and "2.2.11" not in cis_exclusions'
     tags:
       - 2.2.11
 
   - name: 2.2.12 - Remove nfs server; add to removal list
     set_fact:
       unneeded_packages: "{{ unneeded_packages + [ 'nfs-utils' ] }}"
-    when: nfs_server is defined and not nfs_server
+    when: '(nfs_server is defined and not nfs_server) and "2.2.12" not in cis_exclusions'
     tags:
       - 2.2.12
 
@@ -1096,13 +1135,14 @@
       unneeded_packages: "{{ unneeded_packages + [ 'rpcbind' ] }}"
     tags:
       - 2.2.13
+    when: '"2.2.13" not in cis_exclusions'
 
   # control 2.2.14 skipped. RHEL uses LDAP implemented in SSSD by default
 
   - name: 2.2.15 - Disable dhcpd server [controlled by host variable dhcp_server]; add to removal list
     set_fact:
       unneeded_packages: "{{ unneeded_packages + [ 'dhcp' ] }}"
-    when: dhcp_server is defined and not dhcp_server
+    when: '(dhcp_server is defined and not dhcp_server) and "2.2.15" not in cis_exclusions'
     tags:
       - 2.2.15
 
@@ -1111,11 +1151,12 @@
       unneeded_packages: "{{ unneeded_packages + [ 'ypserv' ] }}"
     tags:
       - 2.2.17
+    when: '"2.2.17" not in cis_exclusions'
 
   - name: 2.3.1 - Remove ypbind; add to removal list
     set_fact:
       unneeded_packages: "{{ unneeded_packages + [ 'ypbind' ] }}"
-    when: not ypbind
+    when: 'not ypbind and "2.3.1" not in cis_exclusions'
     tags:
       - 2.3.1
 
@@ -1124,12 +1165,14 @@
       unneeded_packages: "{{ unneeded_packages + [ 'telnet' ] }}"
     tags:
       - 2.3.2
+    when: '"2.3.2" not in cis_exclusions'
 
   - name: 2.3.3 - Remove openldap-clients; add to removal list
     set_fact:
       unneeded_packages: "{{ unneeded_packages + [ 'openldap-clients' ] }}"
     tags:
       - 2.3.3
+    when: '"2.3.3" not in cis_exclusions'
 
   # With the list complete, use it with the system's package manager
   #  to remove packages from the system that are not needed.
@@ -1145,7 +1188,7 @@
       name: "{{ item }}"
       enabled: no
       state: stopped
-    when: "'cups' in ansible_facts.packages"
+    when: '("cups" in ansible_facts.packages) and "2.3.16" not in cis_exclusions'
     loop:
       - cups.service
       - cups.socket
@@ -1172,6 +1215,7 @@
         notify: restart postfix
     tags:
       - 2.2.18
+    when: '"2.2.18" not in cis_exclusions'
 
   # Section 3, Network parameters
 
@@ -1206,6 +1250,7 @@
         notify: flush network routes
     tags:
       - 3.1.0
+    when: '"3.1.0" not in cis_exclusions'
 
   - name: 3.2 - Set networking parameters for host as router communications
     block:
@@ -1260,6 +1305,7 @@
         when: not ipv6_disable
     tags:
       - 3.2.0
+    when: '"3.2.0" not in cis_exclusions'
 
   - name: 3.3 - Disable uncommon network protocols
     block:
@@ -1306,6 +1352,7 @@
           - "{{ uncommon_network }}"
     tags:
       - 3.3.0
+    when: '"3.3.0" not in cis_exclusions'
 
   # Section 3 - Firewall
 
@@ -1352,7 +1399,7 @@
         tags:
           - 3.4.2
 
-    when: enable_firewall is defined and enable_firewall == "firewalld"
+    when: '(enable_firewall is defined and enable_firewall == "firewalld") and "3.4.1" not in cis_exclusions'
     tags:
       - 3.4.1
       - 3.4.2
@@ -1386,7 +1433,7 @@
         tags:
           - 3.4.4.1
 
-    when: enable_firewall is defined and enable_firewall == "iptables"
+    when: '(enable_firewall is defined and enable_firewall == "iptables") and "3.4.4" not in cis_exclusions'
     tags:
       - 3.4.4
 
@@ -1394,9 +1441,10 @@
   - name: 3.4.4.2 - Configure IPv6 iptables
     debug:
       msg: "3.4.4.2, Configure IPv6 ip6tables skipping due to low use"
-    when: ipv6_disable and enable_firewall == "firewalld"
+    when: '(ipv6_disable and enable_firewall == "firewalld") and "3.4.4.2" not in cis_exclusions'
     tags:
       - 3.4.4.2
+    when: '"3.4.4.2" not in cis_exclusions'
 
   # Control 3.5 Ensure wireless interfaces are disabled is interface dependent
   # skipping
@@ -1427,6 +1475,7 @@
 
     tags:
       3.6.0
+    when: '"3.6.0" not in cis_exclusions'
 
   # Section 4 - Logging and Auditing
 
@@ -1440,6 +1489,7 @@
           state: present
         tags:
           - 4.1.1.1
+        when: '"4.1.1.1" not in cis_exclusions'
 
       - name: 4.1.1.2 - Enable auditd service
         service:
@@ -1448,6 +1498,7 @@
           state: started
         tags:
           - 4.1.1.2
+        when: '"4.1.1.2" not in cis_exclusions'
 
       - name: 4.1.1.3 - Ensure auditing for processes that start prior to auditd
       # We check here because we don't know what position the audit=1 is in
@@ -1463,6 +1514,7 @@
         failed_when: false
         tags:
           - 4.1.1.3
+        when: '"4.1.1.3" not in cis_exclusions'
 
       # use the replace module to add it to grub bootloader and then notify
       #  grub to rebuild
@@ -1475,6 +1527,7 @@
         when: not audit_exist.found
         tags:
           - 4.1.1.3
+        when: '"4.1.1.3" not in cis_exclusions'
 
       - name: 4.1.1.4 - Ensure audit_backlog_limit is sufficient, check if limit exists
         lineinfile:
@@ -1487,6 +1540,7 @@
         failed_when: false
         tags:
           - 4.1.1.4
+        when: '"4.1.1.4" not in cis_exclusions'
 
       - name: 4.1.1.4 - Ensure audit_backlog_limit is sufficient, add audit_backlog_limit to grub
         replace:
@@ -1494,7 +1548,7 @@
           regexp: '^\s*GRUB_CMDLINE_LINUX="'
           replace: 'GRUB_CMDLINE_LINUX="audit_backlog_limit={{ audit_backlog_limit }} '
         notify: rebuild grub
-        when: not audit_backlog_exist.found
+        when: '(not audit_backlog_exist.found) and "4.1.1.4" not in cis_exclusions'
         tags:
           - 4.1.1.4
 
@@ -1506,7 +1560,7 @@
         check_mode: yes
         changed_when: false
         register: our_limit
-        when: audit_backlog_exist.found
+        when: '(audit_backlog_exist.found) and "4.1.1.4" not in cis_exclusions'
         tags:
           - 4.1.1.4
 
@@ -1516,7 +1570,7 @@
           regexp: 'audit_backlog_limit=[\S]*'
           replace: 'audit_backlog_limit={{ audit_backlog_limit }}'
         notify: rebuild grub
-        when: audit_backlog_exist.found and not our_limit.found
+        when: '(audit_backlog_exist.found and not our_limit.found) and "4.1.1.4" not in cis_exclusions'
         tags:
           - 4.1.1.4
 
@@ -1538,6 +1592,7 @@
           - 4.1.2.1
           - 4.1.2.2
           - 4.1.2.3
+        when: "4.1.2.1" not in cis_exclusions
 
       # For the next several checks, each one is in their own file, so we are using
       #  the copy module to place each file independently and then motifying
@@ -1552,6 +1607,7 @@
         notify: restart auditd
         tags:
           4.1.4
+        when: "4.1.4" not in cis_exclusions
 
       - name: 4.1.5 - Ensure session initiation information is collected
         template:
@@ -1563,6 +1619,7 @@
         notify: restart auditd
         tags:
           4.1.5
+        when: "4.1.5" not in cis_exclusions
 
       - name: 4.1.6 Ensure to collect events that modify date/time
         template:
@@ -1574,6 +1631,7 @@
         notify: restart auditd
         tags:
           - 4.1.6
+        when: "4.1.6" not in cis_exclusions
 
       - name: 4.1.7 - Ensure modifications to Mandatory Access Controls are collected
         template:
@@ -1585,6 +1643,7 @@
         notify: restart auditd
         tags:
           4.1.7
+        when: "4.1.7" not in cis_exclusions
 
       - name: 4.1.8 - Ensure modifications to network environment are collected
         template:
@@ -1596,6 +1655,7 @@
         notify: restart auditd
         tags:
           4.1.8
+        when: "4.1.8" not in cis_exclusions
 
       # This is the first control that we use the min_uid variable that we determined earlier
       - name: 4.1.9 - Ensure modifications to discretionary access controls are collected
@@ -1608,6 +1668,7 @@
         notify: restart auditd
         tags:
           4.1.9
+        when: "4.1.9" not in cis_exclusions
 
       - name: 4.1.10 - Ensure unsuccessful unauthorized file access attempts are collected
         template:
@@ -1619,6 +1680,7 @@
         notify: restart auditd
         tags:
           4.1.10
+        when: "4.1.10" not in cis_exclusions
 
       - name: 4.1.11 - Ensure events that modify user/group information are collected
         template:
@@ -1630,6 +1692,7 @@
         notify: restart auditd
         tags:
           4.1.11
+        when: "4.1.11" not in cis_exclusions
 
       - name: 4.1.12 - Ensure successful file system mounts are collected
         template:
@@ -1641,6 +1704,7 @@
         notify: restart auditd
         tags:
           4.1.12
+        when: "4.1.12" not in cis_exclusions
 
       # Control 4.1.13 - Ensure use of privileged commands is collected, is machine dependent
       # skipping
@@ -1655,6 +1719,7 @@
         notify: restart auditd
         tags:
           4.1.14
+        when: "4.1.14" not in cis_exclusions
 
       - name: 4.1.15 - Ensure kernel module loading and unloading is collected
         template:
@@ -1666,6 +1731,7 @@
         notify: restart auditd
         tags:
           4.1.15
+        when: "4.1.15" not in cis_exclusions
 
       - name: 4.1.16 - Ensure sysadmin actions (sudolog) are collected
         template:
@@ -1678,6 +1744,7 @@
         tags:
           - 4.1.16
           - 4.1.3
+        when: "4.1.16" not in cis_exclusions
 
       - name: 4.1.17 - Ensure audit configuration is immutable
         copy:
@@ -1690,6 +1757,7 @@
         notify: restart auditd
         tags:
           4.1.17
+        when: "4.1.17" not in cis_exclusions
     when: enable_audit is defined and enable_audit
 
   # Section 4, Logging
@@ -1699,6 +1767,7 @@
       state: present
     tags:
       - 4.2.1.1
+    when: "4.2.1.1" not in cis_exclusions
 
   - name: 4.2.1.2 - Enable Rsyslog
     service:
@@ -1706,6 +1775,7 @@
       enabled: yes
     tags:
       - 4.2.1.2
+    when: "4.2.1.2" not in cis_exclusions
 
   - name: 4.2.1.3 - Ensure rsyslog default file permissions are configured
     lineinfile:
@@ -1716,6 +1786,7 @@
       state: present
     tags:
       - 4.2.1.3
+    when: "4.2.1.3" not in cis_exclusions
 
   - name: 4.2.1.4 - Ensure logging is configured
     copy:
@@ -1724,7 +1795,7 @@
       owner: root
       group: root
       mode: 0640
-    when: rsylog_file is defined
+    when: '(rsylog_file is defined) and "4.2.1.2" not in cis_exclusions'
     tags:
       - 4.2.1.4
 
@@ -1792,6 +1863,7 @@
         when: log_host is defined and log_host
     tags:
       - 4.2.1.6
+    when: "4.2.1.6" not in cis_exclusions
 
   - name: 4.2.2 - Configure journald
     block:
@@ -1810,6 +1882,7 @@
         when: rsyslog_forward_out.stdout
     tags:
       - 4.2.2.1
+    when: "4.2.2.1" not in cis_exclusions
 
   - name: 4.2.2.2 - Ensure journald compresses large files
     lineinfile:
@@ -1819,6 +1892,7 @@
       insertafter: "^#Compress="
     tags:
       - 4.2.2.2
+    when: "4.2.2.2" not in cis_exclusions
 
   - name: 4.2.2.3 - Ensure journald writes to peristent disk
     lineinfile:
@@ -1828,6 +1902,7 @@
       insertafter: "^#Storage="
     tags:
       - 4.2.2.3
+    when: "4.2.2.3" not in cis_exclusions
 
   # Control 4.2.3, Ensure permissions on log files are configured, is machine dependant
   # skipping
@@ -1838,6 +1913,7 @@
       state: present
     tags:
       - 4.3.0
+    when: "4.3.0" not in cis_exclusions
 
   # 4.3 - Ensure logrotate is configured skipped as machine and environment dependent
 
@@ -1859,13 +1935,14 @@
       - /etc/at.allow
     tags:
       - 5.1.8
+    when: "5.1.8" not in cis_exclusions
 
   - name: 5.1.1 - Ensure cron is enabled
     service:
       name: crond
       enabled: yes
       state: started
-    when: "'cronie' in ansible_facts.packages"
+    when: "('cronie' in ansible_facts.packages) and '5.1.1' not in cis_exclusions"
     tags:
       - 5.1.1
 
@@ -1877,6 +1954,7 @@
       mode: 0600
     tags:
       - 5.1.2
+    when: "5.1.2" not in cis_exclusions
 
   - name: 5.1.[3-7] - Ensure permissions on crontab directories
     file:
@@ -1896,6 +1974,7 @@
       - 5.1.5
       - 5.1.6
       - 5.1.7
+    when: "5.1.3" not in cis_exclusions
 
   # Restrict at/cron skipped (5.1.8) as is rarely used and environment dependent
 
@@ -1910,6 +1989,7 @@
           mode: 0600
         tags:
           - 5.2.1
+        when: "5.2.1" not in cis_exclusions
 
       # Control 5.2.2, Ensure SSH access is limited is environment dependent
       # skipping
@@ -1933,6 +2013,7 @@
             loop: "{{ ssh_host_out.files }}"
         tags:
           - 5.2.3
+        when: "5.2.3" not in cis_exclusions
 
       - name: 5.2.4 - Set Permissions on ssh public host keys
         block:
@@ -1953,6 +2034,7 @@
             loop: "{{ ssh_hostpub_out.files }}"
         tags:
           - 5.2.4
+        when: "5.2.4" not in cis_exclusions
 
       - name: 5.2.5 - Set LogLevel to {{ ssh_log_level }} or more verbose, but not debug
         replace:
@@ -1960,7 +2042,7 @@
           replace: "LogLevel {{ ssh_log_level | upper }}"
           regexp: '^LogLevel\s*(QUIET|FATAL|ERROR|DEBUG)*$'
         notify:  restart sshd
-        when: ssh_log_level == "INFO" or ssh_log_level == "WARN"
+        when: '(ssh_log_level == "INFO" or ssh_log_level == "WARN") and "5.2.5" not in cis_exclusions'
         tags:
           - 5.2.5
 
@@ -1974,6 +2056,7 @@
         notify:  restart sshd
         tags:
           - 5.2.6
+        when: "5.2.6" not in cis_exclusions
 
       - name: 5.2.7 - Ensure SSH MaxAuthTires is set to {{ ssh_max_auth_tries }} or less
         lineinfile:
@@ -1984,6 +2067,7 @@
         notify:  restart sshd
         tags:
           - 5.2.7
+        when: "5.2.7" not in cis_exclusions
 
       - name: 5.2.8 - Ensure IgnoreRhosts is set
         lineinfile:
@@ -1993,6 +2077,7 @@
         notify:  restart sshd
         tags:
           - 5.2.8
+        when: "5.2.8" not in cis_exclusions
 
       - name: 5.2.9 - Ensure HostbasedAuthentication is disabled
         lineinfile:
@@ -2002,6 +2087,7 @@
         notify:  restart sshd
         tags:
           - 5.2.9
+        when: "5.2.9" not in cis_exclusions
 
       - name: 5.2.10 Ensure PermitRootLogin is disbled
         lineinfile:
@@ -2011,6 +2097,7 @@
         notify:  restart sshd
         tags:
           - 5.2.10
+        when: "5.2.10" not in cis_exclusions
 
       - name: 5.2.11 - Ensure SSH PermitEmptyPasswords is disabled
         lineinfile:
@@ -2020,6 +2107,7 @@
         notify:  restart sshd
         tags:
           - 5.2.11
+        when: "5.2.11" not in cis_exclusions
 
       - name: 5.2.12 - Ensure PermitUserEnvironment is disabled
         lineinfile:
@@ -2029,6 +2117,7 @@
         notify:  restart sshd
         tags:
           - 5.2.12
+        when: "5.2.12" not in cis_exclusions
 
       - name: 5.2.13 - Ensure SSH Idle Timeout is configured ClientAliveInterval
         lineinfile:
@@ -2039,6 +2128,7 @@
         notify:  restart sshd
         tags:
           - 5.2.13
+        when: "5.2.13" not in cis_exclusions
 
       - name: 5.2.13 - Ensure SSH Idle Timeout is configured ClientAliveCountMax
         lineinfile:
@@ -2049,6 +2139,7 @@
         notify:  restart sshd
         tags:
           - 5.2.13
+        when: "5.2.13" not in cis_exclusions
 
       - name: 5.2.14 - Ensure SSH LoginGraceTime is set to {{ ssh_grace_time }} or less
         lineinfile:
@@ -2059,6 +2150,7 @@
         notify:  restart sshd
         tags:
           - 5.2.14
+        when: "5.2.14" not in cis_exclusions
 
       - name: 5.2.15 - Ensure SSH Banner is configured
         lineinfile:
@@ -2068,6 +2160,7 @@
         notify:  restart sshd
         tags:
           - 5.2.15
+        when: "5.2.15" not in cis_exclusions
 
       - name: 5.2.16 - Ensure SSH is configured to use PAM
         lineinfile:
@@ -2077,6 +2170,7 @@
         notify:  restart sshd
         tags:
           - 5.2.16
+        when: "5.2.16" not in cis_exclusions
 
       - name: 5.2.17 - Disable TCP Forwarding
         lineinfile:
@@ -2087,6 +2181,7 @@
         notify:  restart sshd
         tags:
           - 5.2.17
+        when: "5.2.17" not in cis_exclusions
 
       - name: 5.2.18 - Limit max unauthenticated startups
         lineinfile:
@@ -2096,6 +2191,7 @@
         notify:  restart sshd
         tags:
           - 5.2.18
+        when: "5.2.18" not in cis_exclusions
 
       - name: 5.2.18 - Limit max sessions
         lineinfile:
@@ -2105,6 +2201,7 @@
         notify:  restart sshd
         tags:
           - 5.2.18
+        when: "5.2.18" not in cis_exclusions
 
       - name: 5.2.19 - Ensure system crypto policy isn't overriden in SSH
         lineinfile:
@@ -2114,8 +2211,10 @@
         notify:  restart sshd
         tags:
           - 5.2.19
+        when: "5.2.19" not in cis_exclusions
     tags:
       - 5.2.0
+    when: "5.2.0" not in cis_exclusions
 
   # Control section 5.3, authselect, cannot be used with Red Hat IPA or Microsoft AD
   # Skipping until can assure we know how to test against this.
@@ -2163,6 +2262,7 @@
         when: password_req_digit
     tags:
       - 5.4.1
+    when: "5.4.1" not in cis_exclusions
 
   # Control 5.4.2, Ensure lockout for failed password attempts, requires file replacement
   # skipping
@@ -2181,6 +2281,7 @@
       state: present
     tags:
       - 5.5.1.1
+    when: "5.5.1.1" not in cis_exclusions
 
   - name: 5.5.1.2 - Ensure password change days is set to {{ password_min_days }}
     lineinfile:
@@ -2190,6 +2291,7 @@
       state: present
     tags:
       - 5.5.1.2
+    when: "5.5.1.2" not in cis_exclusions
 
   - name: 5.5.1.3 - Ensure password warning days is set to {{ password_warning_days }}
     lineinfile:
@@ -2199,6 +2301,7 @@
       state: present
     tags:
       - 5.5.1.3
+    when: "5.5.1.3" not in cis_exclusions
 
   # We need to do this the hard way because the user module that calls /usr/sbin/useradd does not support setting inactive days
   # The defaults perms are 0644 on the file, but after useradd is run against it, it changes to 0600, so we'll change it as well
@@ -2212,6 +2315,7 @@
       mode: 0600
     tags:
       - 5.5.1.4
+    when: "5.5.1.4" not in cis_exclusions
 
   # 5.5.1.5, Ensure all users last password change date is in the past,
   # is not easily automated. Will revisit later
@@ -2229,6 +2333,7 @@
       - /etc/profile
     tags:
       - 5.5.3
+    when: "5.5.3" not in cis_exclusions
 
   # Control is actually setting to GID of 0 and the user module takes a group name, not a GID, so have to use usermod
   - name: 5.5.4 - Ensure default group for root is GID 0
@@ -2236,6 +2341,7 @@
     changed_when: false
     tags:
       - 5.5.4
+    when: "5.5.4" not in cis_exclusions
 
   - name: 5.5.5 - Ensure umask is set
     replace:
@@ -2247,6 +2353,7 @@
       - /etc/profile
     tags:
       - 5.5.5
+    when: "5.5.5" not in cis_exclusions
 
   # 5.5.6,  Ensure root login is restricted to system console
   # not easily automatable because of the various TTYs on a machine
@@ -2268,6 +2375,7 @@
           append: yes
     tags:
       - 5.7.0
+    when: "5.7.5" not in cis_exclusions
 
   # Section 6 - System Maintenance
 
@@ -2286,6 +2394,7 @@
     tags:
       - 6.1.2
       - 6.1.4
+    when: "6.1.2" not in cis_exclusions
 
   - name: 6.1.[3,5] - Ensure permissions on /etc/shadow /etc/gshadow
     file:
@@ -2299,6 +2408,7 @@
     tags:
       - 6.1.3
       - 6.1.5
+    when: "6.1.3" not in cis_exclusions
 
   - name: 6.1.[6-9] - Ensure permissions on /etc/passwd- /etc/[g]shadow- /etc/group-
     file:
@@ -2316,6 +2426,7 @@
       - 6.1.7
       - 6.1.8
       - 6.1.9
+    when: "6.1.6" not in cis_exclusions
 
   # Control 6.1.10, Ensure no world writable files exist, is system dependent so we are only
   # providing a list to the user here.
@@ -2333,6 +2444,7 @@
         when: ww_files.stdout
     tags:
       - 6.1.10
+    when: "6.1.10" not in cis_exclusions
 
   # Control 6.1.11, Ensure no unowned files exist, is system dependent so we are only
   # providing a list to the user here.
@@ -2350,6 +2462,7 @@
         when: uo_files.stdout
     tags:
       - 6.1.11
+    when: "6.1.11" not in cis_exclusions
 
   # Control 6.1.12, Enscure no ungrouped files exist, is system dependent so we are only
   # providing a list to the user here.
@@ -2367,6 +2480,7 @@
         when: ug_files.stdout
     tags:
       - 6.1.12
+    when: "6.1.12" not in cis_exclusions
 
 
   # Control 6.1.13, Audit SUID executables, is a verification and is system dependent.
@@ -2392,6 +2506,7 @@
         loop: "{{ empty_passwords.stdout_lines }}"
     tags:
       - 6.2.1
+    when: "6.2.1" not in cis_exclusions
 
   - name: 6.2.[2,4-5] - Ensure no legacy "+" entries exist in password files
     lineinfile:
@@ -2407,6 +2522,7 @@
       - 6.2.2
       - 6.2.4
       - 6.2.5
+    when: "6.2.2" not in cis_exclusions
 
   - name: 6.2.3 - Ensure root PATH integrity
     block:
@@ -2424,6 +2540,7 @@
         when: path_check.stdout
     tags:
       - 6.2.3
+    when: "6.2.3" not in cis_exclusions
 
   - name: 6.2.6 - Report on multiple accounts with UID of 0
     block:
@@ -2441,6 +2558,7 @@
         when: rootuid.stdout != 'root'
     tags:
       - 6.2.6
+    when: "6.2.6" not in cis_exclusions
 
   # Control 6.2.7 is environment dependent, skipping
   # Control 6.2.8 is environment dependent, skipping
@@ -2461,6 +2579,7 @@
         when: undefined_groups.stdout
     tags:
       - 6.2.14
+    when: "6.2.14" not in cis_exclusions
 
   - name: 6.2.15 - Report on duplicate UIDs in /etc/passwd
     block:
@@ -2478,6 +2597,7 @@
         when: duplicate_uids.stdout
     tags:
       - 6.2.15
+    when: "6.2.15" not in cis_exclusions
 
   - name: 6.2.16 - Report on duplicate GIDs in /etc/group
     block:
@@ -2494,6 +2614,7 @@
         when: duplicate_guids.stdout
     tags:
       - 6.2.16
+    when: "6.2.16" not in cis_exclusions
 
   - name: 6.2.17 - Report on duplicate users in /etc/passwd
     block:
@@ -2510,6 +2631,7 @@
         when: duplicate_users.stdout
     tags:
       - 6.2.17
+    when: "6.2.17" not in cis_exclusions
 
   - name: 6.2.18 - Report on duplicate groups in /etc/group
     block:
@@ -2526,6 +2648,7 @@
         when: duplicate_groups.stdout
     tags:
       - 6.2.18
+    when: "6.2.18" not in cis_exclusions
 
   - name: 6.2.19 - Report on shadow group in /etc/group
     block:
@@ -2540,3 +2663,4 @@
           msg: "Shadow group exists in /etc/group. Remove"
         changed_when: true
         when: shadow_out.stdout
+    when: "6.2.19" not in cis_exclusions
