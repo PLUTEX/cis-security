@@ -1592,7 +1592,7 @@
           - 4.1.2.1
           - 4.1.2.2
           - 4.1.2.3
-        when: "4.1.2.1" not in cis_exclusions
+        when: '"4.1.2.1" not in cis_exclusions'
 
       # For the next several checks, each one is in their own file, so we are using
       #  the copy module to place each file independently and then motifying
