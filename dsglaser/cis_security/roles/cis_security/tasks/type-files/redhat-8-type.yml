@@ -1607,7 +1607,7 @@
         notify: restart auditd
         tags:
           4.1.4
-        when: "4.1.4" not in cis_exclusions
+        when: '"4.1.4" not in cis_exclusions'
 
       - name: 4.1.5 - Ensure session initiation information is collected
         template:
@@ -1619,7 +1619,7 @@
         notify: restart auditd
         tags:
           4.1.5
-        when: "4.1.5" not in cis_exclusions
+        when: '"4.1.5" not in cis_exclusions'
 
       - name: 4.1.6 Ensure to collect events that modify date/time
         template:
@@ -1631,7 +1631,7 @@
         notify: restart auditd
         tags:
           - 4.1.6
-        when: "4.1.6" not in cis_exclusions
+        when: '"4.1.6" not in cis_exclusions'
 
       - name: 4.1.7 - Ensure modifications to Mandatory Access Controls are collected
         template:
@@ -1643,7 +1643,7 @@
         notify: restart auditd
         tags:
           4.1.7
-        when: "4.1.7" not in cis_exclusions
+        when: '"4.1.7" not in cis_exclusions'
 
       - name: 4.1.8 - Ensure modifications to network environment are collected
         template:
@@ -1655,7 +1655,7 @@
         notify: restart auditd
         tags:
           4.1.8
-        when: "4.1.8" not in cis_exclusions
+        when: '"4.1.8" not in cis_exclusions'
 
       # This is the first control that we use the min_uid variable that we determined earlier
       - name: 4.1.9 - Ensure modifications to discretionary access controls are collected
@@ -1668,7 +1668,7 @@
         notify: restart auditd
         tags:
           4.1.9
-        when: "4.1.9" not in cis_exclusions
+        when: '"4.1.9" not in cis_exclusions'
 
       - name: 4.1.10 - Ensure unsuccessful unauthorized file access attempts are collected
         template:
@@ -1680,7 +1680,7 @@
         notify: restart auditd
         tags:
           4.1.10
-        when: "4.1.10" not in cis_exclusions
+        when: '"4.1.10" not in cis_exclusions'
 
       - name: 4.1.11 - Ensure events that modify user/group information are collected
         template:
@@ -1692,7 +1692,7 @@
         notify: restart auditd
         tags:
           4.1.11
-        when: "4.1.11" not in cis_exclusions
+        when: '"4.1.11" not in cis_exclusions'
 
       - name: 4.1.12 - Ensure successful file system mounts are collected
         template:
@@ -1704,7 +1704,7 @@
         notify: restart auditd
         tags:
           4.1.12
-        when: "4.1.12" not in cis_exclusions
+        when: '"4.1.12" not in cis_exclusions'
 
       # Control 4.1.13 - Ensure use of privileged commands is collected, is machine dependent
       # skipping
@@ -1719,7 +1719,7 @@
         notify: restart auditd
         tags:
           4.1.14
-        when: "4.1.14" not in cis_exclusions
+        when: '"4.1.14" not in cis_exclusions'
 
       - name: 4.1.15 - Ensure kernel module loading and unloading is collected
         template:
@@ -1731,7 +1731,7 @@
         notify: restart auditd
         tags:
           4.1.15
-        when: "4.1.15" not in cis_exclusions
+        when: '"4.1.15" not in cis_exclusions'
 
       - name: 4.1.16 - Ensure sysadmin actions (sudolog) are collected
         template:
@@ -1744,7 +1744,7 @@
         tags:
           - 4.1.16
           - 4.1.3
-        when: "4.1.16" not in cis_exclusions
+        when: '"4.1.16" not in cis_exclusions'
 
       - name: 4.1.17 - Ensure audit configuration is immutable
         copy:
@@ -1757,7 +1757,7 @@
         notify: restart auditd
         tags:
           4.1.17
-        when: "4.1.17" not in cis_exclusions
+        when: '"4.1.17" not in cis_exclusions'
     when: enable_audit is defined and enable_audit
 
   # Section 4, Logging
@@ -1767,7 +1767,7 @@
       state: present
     tags:
       - 4.2.1.1
-    when: "4.2.1.1" not in cis_exclusions
+    when: '"4.2.1.1" not in cis_exclusions'
 
   - name: 4.2.1.2 - Enable Rsyslog
     service:
@@ -1775,7 +1775,7 @@
       enabled: yes
     tags:
       - 4.2.1.2
-    when: "4.2.1.2" not in cis_exclusions
+    when: '"4.2.1.2" not in cis_exclusions'
 
   - name: 4.2.1.3 - Ensure rsyslog default file permissions are configured
     lineinfile:
@@ -1786,7 +1786,7 @@
       state: present
     tags:
       - 4.2.1.3
-    when: "4.2.1.3" not in cis_exclusions
+    when: '"4.2.1.3" not in cis_exclusions'
 
   - name: 4.2.1.4 - Ensure logging is configured
     copy:
@@ -1863,7 +1863,7 @@
         when: log_host is defined and log_host
     tags:
       - 4.2.1.6
-    when: "4.2.1.6" not in cis_exclusions
+    when: '"4.2.1.6" not in cis_exclusions'
 
   - name: 4.2.2 - Configure journald
     block:
@@ -1882,7 +1882,7 @@
         when: rsyslog_forward_out.stdout
     tags:
       - 4.2.2.1
-    when: "4.2.2.1" not in cis_exclusions
+    when: '"4.2.2.1" not in cis_exclusions'
 
   - name: 4.2.2.2 - Ensure journald compresses large files
     lineinfile:
@@ -1892,7 +1892,7 @@
       insertafter: "^#Compress="
     tags:
       - 4.2.2.2
-    when: "4.2.2.2" not in cis_exclusions
+    when: '"4.2.2.2" not in cis_exclusions'
 
   - name: 4.2.2.3 - Ensure journald writes to peristent disk
     lineinfile:
@@ -1902,7 +1902,7 @@
       insertafter: "^#Storage="
     tags:
       - 4.2.2.3
-    when: "4.2.2.3" not in cis_exclusions
+    when: '"4.2.2.3" not in cis_exclusions'
 
   # Control 4.2.3, Ensure permissions on log files are configured, is machine dependant
   # skipping
@@ -1913,7 +1913,7 @@
       state: present
     tags:
       - 4.3.0
-    when: "4.3.0" not in cis_exclusions
+    when: '"4.3.0" not in cis_exclusions'
 
   # 4.3 - Ensure logrotate is configured skipped as machine and environment dependent
 
@@ -1935,7 +1935,7 @@
       - /etc/at.allow
     tags:
       - 5.1.8
-    when: "5.1.8" not in cis_exclusions
+    when: '"5.1.8" not in cis_exclusions'
 
   - name: 5.1.1 - Ensure cron is enabled
     service:
@@ -1954,7 +1954,7 @@
       mode: 0600
     tags:
       - 5.1.2
-    when: "5.1.2" not in cis_exclusions
+    when: '"5.1.2" not in cis_exclusions'
 
   - name: 5.1.[3-7] - Ensure permissions on crontab directories
     file:
@@ -1974,7 +1974,7 @@
       - 5.1.5
       - 5.1.6
       - 5.1.7
-    when: "5.1.3" not in cis_exclusions
+    when: '"5.1.3" not in cis_exclusions'
 
   # Restrict at/cron skipped (5.1.8) as is rarely used and environment dependent
 
@@ -1989,7 +1989,7 @@
           mode: 0600
         tags:
           - 5.2.1
-        when: "5.2.1" not in cis_exclusions
+        when: '"5.2.1" not in cis_exclusions'
 
       # Control 5.2.2, Ensure SSH access is limited is environment dependent
       # skipping
@@ -2013,7 +2013,7 @@
             loop: "{{ ssh_host_out.files }}"
         tags:
           - 5.2.3
-        when: "5.2.3" not in cis_exclusions
+        when: '"5.2.3" not in cis_exclusions'
 
       - name: 5.2.4 - Set Permissions on ssh public host keys
         block:
@@ -2034,7 +2034,7 @@
             loop: "{{ ssh_hostpub_out.files }}"
         tags:
           - 5.2.4
-        when: "5.2.4" not in cis_exclusions
+        when: '"5.2.4" not in cis_exclusions'
 
       - name: 5.2.5 - Set LogLevel to {{ ssh_log_level }} or more verbose, but not debug
         replace:
@@ -2056,7 +2056,7 @@
         notify:  restart sshd
         tags:
           - 5.2.6
-        when: "5.2.6" not in cis_exclusions
+        when: '"5.2.6" not in cis_exclusions'
 
       - name: 5.2.7 - Ensure SSH MaxAuthTires is set to {{ ssh_max_auth_tries }} or less
         lineinfile:
@@ -2067,7 +2067,7 @@
         notify:  restart sshd
         tags:
           - 5.2.7
-        when: "5.2.7" not in cis_exclusions
+        when: '"5.2.7" not in cis_exclusions'
 
       - name: 5.2.8 - Ensure IgnoreRhosts is set
         lineinfile:
@@ -2077,7 +2077,7 @@
         notify:  restart sshd
         tags:
           - 5.2.8
-        when: "5.2.8" not in cis_exclusions
+        when: '"5.2.8" not in cis_exclusions'
 
       - name: 5.2.9 - Ensure HostbasedAuthentication is disabled
         lineinfile:
@@ -2087,7 +2087,7 @@
         notify:  restart sshd
         tags:
           - 5.2.9
-        when: "5.2.9" not in cis_exclusions
+        when: '"5.2.9" not in cis_exclusions'
 
       - name: 5.2.10 Ensure PermitRootLogin is disbled
         lineinfile:
@@ -2097,7 +2097,7 @@
         notify:  restart sshd
         tags:
           - 5.2.10
-        when: "5.2.10" not in cis_exclusions
+        when: '"5.2.10" not in cis_exclusions'
 
       - name: 5.2.11 - Ensure SSH PermitEmptyPasswords is disabled
         lineinfile:
@@ -2107,7 +2107,7 @@
         notify:  restart sshd
         tags:
           - 5.2.11
-        when: "5.2.11" not in cis_exclusions
+        when: '"5.2.11" not in cis_exclusions'
 
       - name: 5.2.12 - Ensure PermitUserEnvironment is disabled
         lineinfile:
@@ -2117,7 +2117,7 @@
         notify:  restart sshd
         tags:
           - 5.2.12
-        when: "5.2.12" not in cis_exclusions
+        when: '"5.2.12" not in cis_exclusions'
 
       - name: 5.2.13 - Ensure SSH Idle Timeout is configured ClientAliveInterval
         lineinfile:
@@ -2128,7 +2128,7 @@
         notify:  restart sshd
         tags:
           - 5.2.13
-        when: "5.2.13" not in cis_exclusions
+        when: '"5.2.13" not in cis_exclusions'
 
       - name: 5.2.13 - Ensure SSH Idle Timeout is configured ClientAliveCountMax
         lineinfile:
@@ -2139,7 +2139,7 @@
         notify:  restart sshd
         tags:
           - 5.2.13
-        when: "5.2.13" not in cis_exclusions
+        when: '"5.2.13" not in cis_exclusions'
 
       - name: 5.2.14 - Ensure SSH LoginGraceTime is set to {{ ssh_grace_time }} or less
         lineinfile:
@@ -2150,7 +2150,7 @@
         notify:  restart sshd
         tags:
           - 5.2.14
-        when: "5.2.14" not in cis_exclusions
+        when: '"5.2.14" not in cis_exclusions'
 
       - name: 5.2.15 - Ensure SSH Banner is configured
         lineinfile:
@@ -2160,7 +2160,7 @@
         notify:  restart sshd
         tags:
           - 5.2.15
-        when: "5.2.15" not in cis_exclusions
+        when: '"5.2.15" not in cis_exclusions'
 
       - name: 5.2.16 - Ensure SSH is configured to use PAM
         lineinfile:
@@ -2170,7 +2170,7 @@
         notify:  restart sshd
         tags:
           - 5.2.16
-        when: "5.2.16" not in cis_exclusions
+        when: '"5.2.16" not in cis_exclusions'
 
       - name: 5.2.17 - Disable TCP Forwarding
         lineinfile:
@@ -2181,7 +2181,7 @@
         notify:  restart sshd
         tags:
           - 5.2.17
-        when: "5.2.17" not in cis_exclusions
+        when: '"5.2.17" not in cis_exclusions'
 
       - name: 5.2.18 - Limit max unauthenticated startups
         lineinfile:
@@ -2191,7 +2191,7 @@
         notify:  restart sshd
         tags:
           - 5.2.18
-        when: "5.2.18" not in cis_exclusions
+        when: '"5.2.18" not in cis_exclusions'
 
       - name: 5.2.18 - Limit max sessions
         lineinfile:
@@ -2201,7 +2201,7 @@
         notify:  restart sshd
         tags:
           - 5.2.18
-        when: "5.2.18" not in cis_exclusions
+        when: '"5.2.18" not in cis_exclusions'
 
       - name: 5.2.19 - Ensure system crypto policy isn't overriden in SSH
         lineinfile:
@@ -2211,10 +2211,10 @@
         notify:  restart sshd
         tags:
           - 5.2.19
-        when: "5.2.19" not in cis_exclusions
+        when: '"5.2.19" not in cis_exclusions'
     tags:
       - 5.2.0
-    when: "5.2.0" not in cis_exclusions
+    when: '"5.2.0" not in cis_exclusions'
 
   # Control section 5.3, authselect, cannot be used with Red Hat IPA or Microsoft AD
   # Skipping until can assure we know how to test against this.
@@ -2262,7 +2262,7 @@
         when: password_req_digit
     tags:
       - 5.4.1
-    when: "5.4.1" not in cis_exclusions
+    when: '"5.4.1" not in cis_exclusions'
 
   # Control 5.4.2, Ensure lockout for failed password attempts, requires file replacement
   # skipping
@@ -2281,7 +2281,7 @@
       state: present
     tags:
       - 5.5.1.1
-    when: "5.5.1.1" not in cis_exclusions
+    when: '"5.5.1.1" not in cis_exclusions'
 
   - name: 5.5.1.2 - Ensure password change days is set to {{ password_min_days }}
     lineinfile:
@@ -2291,7 +2291,7 @@
       state: present
     tags:
       - 5.5.1.2
-    when: "5.5.1.2" not in cis_exclusions
+    when: '"5.5.1.2" not in cis_exclusions'
 
   - name: 5.5.1.3 - Ensure password warning days is set to {{ password_warning_days }}
     lineinfile:
@@ -2301,7 +2301,7 @@
       state: present
     tags:
       - 5.5.1.3
-    when: "5.5.1.3" not in cis_exclusions
+    when: '"5.5.1.3" not in cis_exclusions'
 
   # We need to do this the hard way because the user module that calls /usr/sbin/useradd does not support setting inactive days
   # The defaults perms are 0644 on the file, but after useradd is run against it, it changes to 0600, so we'll change it as well
@@ -2315,7 +2315,7 @@
       mode: 0600
     tags:
       - 5.5.1.4
-    when: "5.5.1.4" not in cis_exclusions
+    when: '"5.5.1.4" not in cis_exclusions'
 
   # 5.5.1.5, Ensure all users last password change date is in the past,
   # is not easily automated. Will revisit later
@@ -2333,7 +2333,7 @@
       - /etc/profile
     tags:
       - 5.5.3
-    when: "5.5.3" not in cis_exclusions
+    when: '"5.5.3" not in cis_exclusions'
 
   # Control is actually setting to GID of 0 and the user module takes a group name, not a GID, so have to use usermod
   - name: 5.5.4 - Ensure default group for root is GID 0
@@ -2341,7 +2341,7 @@
     changed_when: false
     tags:
       - 5.5.4
-    when: "5.5.4" not in cis_exclusions
+    when: '"5.5.4" not in cis_exclusions'
 
   - name: 5.5.5 - Ensure umask is set
     replace:
@@ -2353,7 +2353,7 @@
       - /etc/profile
     tags:
       - 5.5.5
-    when: "5.5.5" not in cis_exclusions
+    when: '"5.5.5" not in cis_exclusions'
 
   # 5.5.6,  Ensure root login is restricted to system console
   # not easily automatable because of the various TTYs on a machine
@@ -2375,7 +2375,7 @@
           append: yes
     tags:
       - 5.7.0
-    when: "5.7.5" not in cis_exclusions
+    when: '"5.7.5" not in cis_exclusions'
 
   # Section 6 - System Maintenance
 
@@ -2394,7 +2394,7 @@
     tags:
       - 6.1.2
       - 6.1.4
-    when: "6.1.2" not in cis_exclusions
+    when: '"6.1.2" not in cis_exclusions'
 
   - name: 6.1.[3,5] - Ensure permissions on /etc/shadow /etc/gshadow
     file:
@@ -2408,7 +2408,7 @@
     tags:
       - 6.1.3
       - 6.1.5
-    when: "6.1.3" not in cis_exclusions
+    when: '"6.1.3" not in cis_exclusions'
 
   - name: 6.1.[6-9] - Ensure permissions on /etc/passwd- /etc/[g]shadow- /etc/group-
     file:
@@ -2426,7 +2426,7 @@
       - 6.1.7
       - 6.1.8
       - 6.1.9
-    when: "6.1.6" not in cis_exclusions
+    when: '"6.1.6" not in cis_exclusions'
 
   # Control 6.1.10, Ensure no world writable files exist, is system dependent so we are only
   # providing a list to the user here.
@@ -2444,7 +2444,7 @@
         when: ww_files.stdout
     tags:
       - 6.1.10
-    when: "6.1.10" not in cis_exclusions
+    when: '"6.1.10" not in cis_exclusions'
 
   # Control 6.1.11, Ensure no unowned files exist, is system dependent so we are only
   # providing a list to the user here.
@@ -2462,7 +2462,7 @@
         when: uo_files.stdout
     tags:
       - 6.1.11
-    when: "6.1.11" not in cis_exclusions
+    when: '"6.1.11" not in cis_exclusions'
 
   # Control 6.1.12, Enscure no ungrouped files exist, is system dependent so we are only
   # providing a list to the user here.
@@ -2480,7 +2480,7 @@
         when: ug_files.stdout
     tags:
       - 6.1.12
-    when: "6.1.12" not in cis_exclusions
+    when: '"6.1.12" not in cis_exclusions'
 
 
   # Control 6.1.13, Audit SUID executables, is a verification and is system dependent.
@@ -2506,7 +2506,7 @@
         loop: "{{ empty_passwords.stdout_lines }}"
     tags:
       - 6.2.1
-    when: "6.2.1" not in cis_exclusions
+    when: '"6.2.1" not in cis_exclusions'
 
   - name: 6.2.[2,4-5] - Ensure no legacy "+" entries exist in password files
     lineinfile:
@@ -2522,7 +2522,7 @@
       - 6.2.2
       - 6.2.4
       - 6.2.5
-    when: "6.2.2" not in cis_exclusions
+    when: '"6.2.2" not in cis_exclusions'
 
   - name: 6.2.3 - Ensure root PATH integrity
     block:
@@ -2540,7 +2540,7 @@
         when: path_check.stdout
     tags:
       - 6.2.3
-    when: "6.2.3" not in cis_exclusions
+    when: '"6.2.3" not in cis_exclusions'
 
   - name: 6.2.6 - Report on multiple accounts with UID of 0
     block:
@@ -2558,7 +2558,7 @@
         when: rootuid.stdout != 'root'
     tags:
       - 6.2.6
-    when: "6.2.6" not in cis_exclusions
+    when: '"6.2.6" not in cis_exclusions'
 
   # Control 6.2.7 is environment dependent, skipping
   # Control 6.2.8 is environment dependent, skipping
@@ -2579,7 +2579,7 @@
         when: undefined_groups.stdout
     tags:
       - 6.2.14
-    when: "6.2.14" not in cis_exclusions
+    when: '"6.2.14" not in cis_exclusions'
 
   - name: 6.2.15 - Report on duplicate UIDs in /etc/passwd
     block:
@@ -2597,7 +2597,7 @@
         when: duplicate_uids.stdout
     tags:
       - 6.2.15
-    when: "6.2.15" not in cis_exclusions
+    when: '"6.2.15" not in cis_exclusions'
 
   - name: 6.2.16 - Report on duplicate GIDs in /etc/group
     block:
@@ -2614,7 +2614,7 @@
         when: duplicate_guids.stdout
     tags:
       - 6.2.16
-    when: "6.2.16" not in cis_exclusions
+    when: '"6.2.16" not in cis_exclusions'
 
   - name: 6.2.17 - Report on duplicate users in /etc/passwd
     block:
@@ -2631,7 +2631,7 @@
         when: duplicate_users.stdout
     tags:
       - 6.2.17
-    when: "6.2.17" not in cis_exclusions
+    when: '"6.2.17" not in cis_exclusions'
 
   - name: 6.2.18 - Report on duplicate groups in /etc/group
     block:
@@ -2648,7 +2648,7 @@
         when: duplicate_groups.stdout
     tags:
       - 6.2.18
-    when: "6.2.18" not in cis_exclusions
+    when: '"6.2.18" not in cis_exclusions'
 
   - name: 6.2.19 - Report on shadow group in /etc/group
     block:
@@ -2663,4 +2663,4 @@
           msg: "Shadow group exists in /etc/group. Remove"
         changed_when: true
         when: shadow_out.stdout
-    when: "6.2.19" not in cis_exclusions
+    when: '"6.2.19" not in cis_exclusions'
