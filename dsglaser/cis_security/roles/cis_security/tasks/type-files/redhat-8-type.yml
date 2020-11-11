@@ -1255,37 +1255,134 @@
 
   - name: 3.2 - Set networking parameters for host as router communications
     block:
-      - name: 3.2 - Set ipv4 network parameters (OFF)
+      - name: 3.2.1 - Ensure source routed packets are not accepted (Scored) - all
         sysctl:
-          name: "{{ item }}"
+          name: "net.ipv4.conf.all.accept_source_route"
           value: "0"
           reload: yes
           state: present
           sysctl_set: yes
-        loop:
-          - net.ipv4.conf.all.accept_source_route # (3.2.1)
-          - net.ipv4.conf.default.accept_source_route # (3.2.1)
-          - net.ipv4.conf.all.accept_redirects # (3.2.2)
-          - net.ipv4.conf.default.accept_redirects # (3.2.2)
-          - net.ipv4.conf.all.secure_redirects # (3.2.3)
-          - net.ipv4.conf.default.secure_redirects # (3.2.3)
+        when: '"3.2.1" not in cis_exclusions'
         notify: flush network routes
 
-      - name: 3.2.[4-8] - Set ipv4 networking parameters (ON)
+      - name: 3.2.1 - Ensure source routed packets are not accepted (Scored) - default
         sysctl:
-          name: "{{ item }}"
-          value: "1"
+          name: "net.ipv4.conf.default.accept_source_route"
+          value: "0"
           reload: yes
           state: present
           sysctl_set: yes
-        loop:
-          - net.ipv4.conf.all.log_martians # (3.2.4)
-          - net.ipv4.conf.default.log_martians # (3.2.4)
-          - net.ipv4.icmp_echo_ignore_broadcasts # (3.2.5)
-          - net.ipv4.icmp_ignore_bogus_error_responses # (3.2.6)
-          - net.ipv4.conf.all.rp_filter # (3.2.7)
-          - net.ipv4.conf.default.rp_filter # (3.2.7)
-          - net.ipv4.tcp_syncookies # ( 3.2.8)
+        when: '"3.2.1" not in cis_exclusions'
+        notify: flush network routes
+
+      - name: 3.2.2 - Ensure ICMP redirects are not accepted (Scored) - all
+        sysctl:
+          name: "net.ipv4.conf.all.accept_redirects"
+          value: "0"
+          reload: yes
+          state: present
+          sysctl_set: yes
+        when: '"3.2.2" not in cis_exclusions'
+        notify: flush network routes
+
+      - name: 3.2.2 - Ensure ICMP redirects are not accepted (Scored) - default
+        sysctl:
+          name: "net.ipv4.conf.default.accept_redirects"
+          value: "0"
+          reload: yes
+          state: present
+          sysctl_set: yes
+        when: '"3.2.2" not in cis_exclusions'
+        notify: flush network routes
+
+      - name: 3.2.3 - Ensure secure ICMP redirects are not accepted (Scored) - all
+        sysctl:
+          name: "net.ipv4.conf.all.secure_redirects"
+          value: "0"
+          reload: yes
+          state: present
+          sysctl_set: yes
+        when: '"3.2.3" not in cis_exclusions'
+        notify: flush network routes
+
+      - name: 3.2.3 - Ensure secure ICMP redirects are not accepted (Scored) - default
+        sysctl:
+          name: "net.ipv4.conf.default.secure_redirects"
+          value: "0"
+          reload: yes
+          state: present
+          sysctl_set: yes
+        when: '"3.2.3" not in cis_exclusions'
+        notify: flush network routes
+
+      - name: 3.2.4 - Ensure suspicious packets are logged (Scored) - all
+        sysctl:
+          name: "net.ipv4.conf.all.log_martians"
+          value: "0"
+          reload: yes
+          state: present
+          sysctl_set: yes
+        when: '"3.2.4" not in cis_exclusions'
+        notify: flush network routes
+
+      - name: 3.2.4 - Ensure suspicious packets are logged (Scored) - default
+        sysctl:
+          name: "net.ipv4.conf.default.log_martians"
+          value: "0"
+          reload: yes
+          state: present
+          sysctl_set: yes
+        when: '"3.2.4" not in cis_exclusions'
+        notify: flush network routes
+
+      - name: 3.2.5 - Ensure broadcast ICMP requests are ignored (Scored)
+        sysctl:
+          name: "net.ipv4.icmp_echo_ignore_broadcasts"
+          value: "0"
+          reload: yes
+          state: present
+          sysctl_set: yes
+        when: '"3.2.5" not in cis_exclusions'
+        notify: flush network routes
+
+      - name: 3.2.6 - Ensure bogus ICMP responses are ignored (Scored)
+        sysctl:
+          name: "net.ipv4.icmp_ignore_bogus_error_responses"
+          value: "0"
+          reload: yes
+          state: present
+          sysctl_set: yes
+        when: '"3.2.6" not in cis_exclusions'
+        notify: flush network routes
+
+      - name: 3.2.7 - Ensure Reverse Path Filtering is enabled (Scored) - all
+        sysctl:
+          name: "net.ipv4.conf.all.rp_filter"
+          value: "0"
+          reload: yes
+          state: present
+          sysctl_set: yes
+        when: '"3.2.7" not in cis_exclusions'
+        notify: flush network routes
+
+      - name: 3.2.7 - Ensure Reverse Path Filtering is enabled (Scored) - default
+        sysctl:
+          name: "net.ipv4.conf.default.rp_filter"
+          value: "0"
+          reload: yes
+          state: present
+          sysctl_set: yes
+        when: '"3.2.7" not in cis_exclusions'
+        notify: flush network routes
+
+      - name: 3.2.8 - Ensure TCP SYN Cookies is enabled (Scored)
+        sysctl:
+          name: "net.ipv4.tcp_syncookies"
+          value: "0"
+          reload: yes
+          state: present
+          sysctl_set: yes
+        when: '"3.2.8" not in cis_exclusions'
         notify: flush network routes
 
       - name: 3.2 - Set ipv6 networking parameters (OFF)
