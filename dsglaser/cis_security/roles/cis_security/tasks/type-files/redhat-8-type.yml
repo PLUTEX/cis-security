@@ -604,6 +604,7 @@
         notify: restart aidecheck
         tags:
           - 1.4.2
+        when: "'1.4.2' not in cis_exclusions"
 
       # Copy in the already configured systemd timer file using the copy module.
       # Be sure to set the selinux context.
@@ -619,6 +620,7 @@
         notify: restart aidecheck
         tags:
           - 1.4.2
+        when: "'1.4.2' not in cis_exclusions"
     tags:
       - 1.4.0
     when: "'1.4.0' not in cis_exclusions"
