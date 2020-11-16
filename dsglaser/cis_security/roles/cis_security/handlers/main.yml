@@ -55,8 +55,6 @@
   systemd:
     name: tmp.mount
     state: restarted
-    enabled: yes
-    masked: no
     daemon_reload: yes
 
 # Call the grub config file rebuilding program

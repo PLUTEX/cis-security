@@ -112,6 +112,12 @@
             Options=mode=1777,strictatime,noexec,nodev,nosuid
           create: true
         notify: restart tmpfs
+      - name: "Enable tmp.mount"
+        systemd:
+          name: tmp.mount
+          enabled: yes
+          daemon_reload: yes
+        notify: restart tmpfs
     tags:
       - 1.1.2
       - 1.1.3
