@@ -103,7 +103,7 @@
       # Notify systemd to reload its daemons and start the local-fs service
       - name: 1.1.[2-5] - Configure config file for tmpfs
         blockinfile:
-          path: /etc/systemd/system/local-fs.target.wants/tmp.mount
+          path: /etc/systemd/system/tmp.mount
           block: |
             [Mount]
             What=tmpfs
